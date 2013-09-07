@@ -1,0 +1,9 @@
+.web_console {
+    width: 90%;
+    margin: 0 auto;
+    height: 600px;
+    color: #49f349;
+    font: normal normal 14px "Courier New", Courier, monospace;
+    background-color: black;
+    overflow: auto;
+}
