@@ -1,9 +1,17 @@
 .web_console {
-    width: 90%;
-    margin: 0 auto;
-    height: 600px;
-    color: #49f349;
-    font: normal normal 14px "Courier New", Courier, monospace;
-    background-color: black;
-    overflow: auto;
+	width: 90%;
+	margin: 0 auto;
+	padding: 0 0.25em 0 0.25em;
+	max-height: 600px;
+	color: #49f349;
+	font: normal normal 14px "Courier New", Courier, monospace;
+	background-color: black;
+	overflow: auto;
+}
+.web_console > .error { color: #d55959; }
+
+.actions li {
+	width: 10em;
+	border: 1px solid blue;
+	padding: 2px;
 }

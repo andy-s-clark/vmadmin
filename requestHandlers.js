@@ -15,9 +15,21 @@ exports.asset = function (response, pathname) {
 
 // AJAX
 exports.ajax = function (response, pathname) {
-  response.writeHead(200, {"Content-Type": "text/plain"});
-  response.write(pathname);
-  response.end();
+  // Parse path
+  var pathArray=pathname.split('/');
+  pathArray.shift(); // Drop "" element
+  switch(pathArray[1]) {
+    case 'service':
+      var service = require ('./service');
+      service.service(response, pathArray[2], pathArray[3]);
+      break;
+
+    default:
+      response.writeHead(501, {"Content-Type": "text/plain"});
+      response.write('Not Implemented:'+pathArray[1]);
+      response.end();
+      break;
+  }
 }
 
 exports.showDirectory = function (response) {
