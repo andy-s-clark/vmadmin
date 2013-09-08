@@ -1,6 +1,9 @@
+body {
+	font: normal normal 15px "Arial",Helvetica,Verdana,Tahoma,sans-serif;
+}
 .web_console {
 	width: 90%;
-	margin: 0 auto;
+	margin: 20px auto 0 auto;
 	padding: 0 0.25em 0 0.25em;
 	max-height: 600px;
 	color: #49f349;
@@ -10,8 +13,32 @@
 }
 .web_console > .error { color: #d55959; }
 
-.actions li {
-	width: 10em;
-	border: 1px solid blue;
-	padding: 2px;
+.actions {
+	margin: 0;
+	padding: 0;
+	list-style: none;
 }
+.actions > li {
+	width: 20em;
+	padding: 4px 2px 1px 4px;
+	margin: 0 0 4px 0;
+	background: #eee;
+	box-shadow: 1px 2px 2px 0 #ddd;
+}
+.actions > li > img {
+	width: 32px;
+	height: 32px;
+	display: inline-block;
+	margin-right: 4px;
+}
+.actions > li > img:hover { background: #ddd; }
+.actions > li > img:active { background: yellow; }
+.actions > li > strong {
+	display: inline-block;
+	margin-left: 1em;
+	font-size: 200%;
+	text-transform: capitalize;
+}
+
+/*.running { background: #eee; }
+.stopped { background: #aaa; }*/

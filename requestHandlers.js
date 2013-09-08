@@ -1,6 +1,7 @@
 var exec = require('child_process').exec;
 var path = require('path');
-var fs = require('fs');
+var fs   = require('fs');
+var mime = require('mime');
 
 // Index Page
 exports.index = function (response) {
@@ -42,7 +43,7 @@ exports.showDirectory = function (response) {
 
 // Helper function to output a file
 function outputFile(response, pathname) {
-  fs.readFile(pathname, 'utf8', function(err, data) {
+  fs.readFile(pathname, null, function(err, data) {
     if (err) {
       console.log(data);
       response.writeHead(404, {"Content-Type": "text/plain"});
@@ -50,7 +51,7 @@ function outputFile(response, pathname) {
       response.end();
       return
     }
-    response.writeHead(200, {"Content-Type": "text/html"});
+    response.writeHead(200, {"Content-Type": mime.lookup(pathname)});
     response.write(data);
     response.end();
   });
