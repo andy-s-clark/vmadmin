@@ -1,0 +1,12 @@
+{
+  "name": "VMAdmin",
+  "version": "0.1.0",
+  "description": "Virtual Machine Admin.",
+  "author": "BuildMaster <programmers@build.com>",
+  "bugs": {
+    "url": "https://jira.impdir.com/"
+  },
+  "dependencies": {
+    "mime": "~1.2.11"
+  }
+}
