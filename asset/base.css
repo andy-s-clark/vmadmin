@@ -1,7 +1,7 @@
 body {
 	font: normal normal 15px "Arial",Helvetica,Verdana,Tahoma,sans-serif;
 }
-.web_console {
+.web-console {
 	width: 90%;
 	margin: 20px auto 0 auto;
 	padding: 0 0.25em 0 0.25em;
@@ -11,7 +11,7 @@ body {
 	background-color: black;
 	overflow: auto;
 }
-.web_console > .error { color: #d55959; }
+.web-console > .error { color: #d55959; }
 
 .actions {
 	margin: 0;
@@ -31,8 +31,8 @@ body {
 	display: inline-block;
 	margin-right: 4px;
 }
-.actions > li > img:hover { background: #ddd; }
-.actions > li > img:active { background: yellow; }
+.actions > li > img:hover { background: yellow; }
+.actions > li > img:active { background: black; }
 .actions > li > strong {
 	display: inline-block;
 	margin-left: 1em;
@@ -40,5 +40,5 @@ body {
 	text-transform: capitalize;
 }
 
-/*.running { background: #eee; }
-.stopped { background: #aaa; }*/
+.running { background: #afa !important; }
+.stopped { background: #faa !important; }

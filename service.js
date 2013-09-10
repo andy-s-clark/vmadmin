@@ -16,16 +16,13 @@ exports.service = function (response, serviceName, serviceRequest) {
         var command = 'service '+serviceName+' '+serviceRequest;
       }
       exec(command, function(error, stdout, stderr) {
-        if(error) {
-          result.success = false;
-          result.output = stderr;
-        } else {
-          result.success = true;
-          result.output = stdout;
-          if (serviceRequest === 'status') {
-            result.running = /start\/running/.test(result.output);
-          }
+        result.success = !error;
+        if (serviceRequest === 'status') {
+          result.success = true; // Status returns FALSE if SysV is not started
+          result.running = /(start\/running|is\ running)/.test(stdout);
         }
+        result.output = result.success ? stdout : stderr;
+
         response.writeHead(200, {"Content-Type": "application/json"});
         response.write(JSON.stringify(result));
         response.end();

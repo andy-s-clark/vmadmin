@@ -1,5 +1,4 @@
 exports.route = function (handle, pathname, response) {
-  console.log('Routing for ' + pathname);
   if (typeof handle[pathname] === 'function') {
     handle[pathname](response)
   } else if (/^\/asset\//.test(pathname)) {

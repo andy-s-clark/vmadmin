@@ -50,7 +50,6 @@ exports.showDirectory = function (response) {
 function outputFile(response, pathname) {
   fs.readFile(pathname, null, function(err, data) {
     if (err) {
-      console.log(data);
       response.writeHead(404, {"Content-Type": "text/plain"});
       response.write('404 Not found');
       response.end();

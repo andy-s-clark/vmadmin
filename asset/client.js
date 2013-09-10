@@ -1,9 +1,13 @@
 // Document Ready
 $(document).ready(function() {
   // Desired Services
-  var desiredServices = ['cron'
-    ,'cups'
-    ,'bar'
+  var desiredServices = ['apache2'
+    ,'coldfusion_10'
+    ,'mysql','mysqld'
+    ,'grunt-watch-buildstore'
+    ,'httpd'
+    ,'postfix'
+    ,'memcached'
   ];
 
   $.ajax('/ajax/serviceList', {
@@ -23,48 +27,72 @@ $(document).ready(function() {
     }
   });
 
+  function updateServiceStatusDisplay(service, data) {
+    if (typeof data.running === 'undefined') {
+      alert('doh!');
+    } else {
+      $('#service-'+service).toggleClass('running', data.running).toggleClass('stopped', !data.running);
+    }
+  }
+
+  function serviceStarted(service, data) {
+    $('#web-console').append('<pre>'+data.output+'</pre>');
+    serviceRequest(service, 'status', updateServiceStatusDisplay);
+  }
+
+  function serviceStopped(service, data) {
+    if ( data.output ) $('#web-console').append('<pre>'+data.output+'</pre>');
+    serviceRequest(service, 'status', updateServiceStatusDisplay);
+  }
+  function serviceRestarted(service, data) {
+    if ( data.output ) $('#web-console').append('<pre>'+data.output+'</pre>');
+    serviceRequest(service, 'status', updateServiceStatusDisplay);
+  }
+
   function createControls(services) {
     $actionsList = $('ul.actions');
     // Create HTML elements for each service
     for (var i=0; i < services.length; i++) {
       var service = services[i];
-      $actionsList.append('<li class="service-'+service+'"><img class="start" src="/asset/start.png" alt="Start" /><img class="stop" src="/asset/stop.png" alt="Stop" /><img class="restart" src="/asset/restart.png" alt="Restart" /><strong>'+service+'</strong></li>');
+      $actionsList.append('<li class="service-'+service+'" id="service-'+service+'"><img class="start" src="/asset/start.png" alt="Start" /><img class="stop" src="/asset/stop.png" alt="Stop" /><img class="restart" src="/asset/restart.png" alt="Restart" /><strong>'+service+'</strong></li>');
 
       $service = $actionsList.children('.service-'+service);
+      serviceRequest(service, 'status', updateServiceStatusDisplay);
+      $service.on('click', {service: service}, function(event) {
+        $('#service-'+event.data.service).toggleClass('running', false).toggleClass('stopped', false);
+        serviceRequest(event.data.service, 'status', updateServiceStatusDisplay);
+      });
+      $service.children('.start').on('click', {service: service}, function(event) {
+        serviceRequest(event.data.service, 'start', serviceStarted);
+      });
+      $service.children('.stop').on('click', {service: service}, function(event) {
+        serviceRequest(event.data.service, 'stop', serviceStopped);
+      });
+      $service.children('.restart').on('click', {service: service}, function(event) {
+        serviceRequest(event.data.service, 'restart', serviceRestarted);
+      });
 
-      $service.on('click', {service: service, request: 'status'}, function(event) {
-        serviceRequest(event.data.service, event.data.request);
-      });
-      $service.children('.start').on('click', {service: service, request: 'start'}, function(event) {
-        serviceRequest(event.data.service, event.data.request);
-      });
-      $service.children('.stop').on('click', {service: service, request: 'stop'}, function(event) {
-        serviceRequest(event.data.service, event.data.request);
-      });
-      $service.children('.restart').on('click', {service: service, request: 'restart'}, function(event) {
-        serviceRequest(event.data.service, event.data.request);
-      });
+      // Poll for status of each service periodically
+      setInterval(function(service) {
+        serviceRequest(service, 'status', updateServiceStatusDisplay);
+      }, 5000, service);
     }
   }
 
-  function serviceRequest(service, request) {
+  function serviceRequest(service, request, callback, failCallback) {
     $.ajax('/ajax/service/'+service+'/'+request, {
       success:function(data) {
         if (data.success) {
-//           if (request === 'status') {
-//             alert(request);
-//             updateServiceStatusDisplay(service, data.running);
-//           }
-          $('.web_console').html('<pre>'+data.output+'</pre>');
+          callback(service, data);
         } else {
-          $('.web_console').html('<pre class="error">'+data.output+'</pre>');
+          if ( failCallback ) {
+            failCallback(service, data);
+          } else {
+            $('#web-console').append('<pre class="error">Error: '+data.output+'</pre>');
+          }
         }
       }
     });
   }
 
-  function updateServiceStatusDisplay(service, running) {
-    alert(running);
-  }
-  // TODO Poll for status of each service periodically
 });
