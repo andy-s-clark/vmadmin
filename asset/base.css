@@ -1,9 +1,12 @@
 body {
 	font: normal normal 15px "Arial",Helvetica,Verdana,Tahoma,sans-serif;
 }
-.web-console {
-	width: 90%;
-	margin: 20px auto 0 auto;
+.services-wrapper {
+}
+.services-console {
+	float: left;
+	width: 500px;
+	margin: 0 0 0 10px;
 	padding: 0 0.25em 0 0.25em;
 	max-height: 600px;
 	color: #49f349;
@@ -11,15 +14,16 @@ body {
 	background-color: black;
 	overflow: auto;
 }
-.web-console > .error { color: #d55959; }
+.services-console > .error { color: #d55959; }
 
 .actions {
+	float: left;
 	margin: 0;
 	padding: 0;
 	list-style: none;
+	width: 400px;
 }
 .actions > li {
-	width: 20em;
 	padding: 4px 2px 1px 4px;
 	margin: 0 0 4px 0;
 	background: #eee;

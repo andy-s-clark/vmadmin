@@ -36,16 +36,16 @@ $(document).ready(function() {
   }
 
   function serviceStarted(service, data) {
-    $('#web-console').append('<pre>'+data.output+'</pre>');
+    appendToServiceConsole(data.output);
     serviceRequest(service, 'status', updateServiceStatusDisplay);
   }
 
   function serviceStopped(service, data) {
-    if ( data.output ) $('#web-console').append('<pre>'+data.output+'</pre>');
+    appendToServiceConsole(data.output);
     serviceRequest(service, 'status', updateServiceStatusDisplay);
   }
   function serviceRestarted(service, data) {
-    if ( data.output ) $('#web-console').append('<pre>'+data.output+'</pre>');
+    appendToServiceConsole(data.output);
     serviceRequest(service, 'status', updateServiceStatusDisplay);
   }
 
@@ -88,11 +88,16 @@ $(document).ready(function() {
           if ( failCallback ) {
             failCallback(service, data);
           } else {
-            $('#web-console').append('<pre class="error">Error: '+data.output+'</pre>');
+            appendToServiceConsole(data.output, true);
           }
         }
       }
     });
   }
 
+  function appendToServiceConsole(text, error) {
+    $('#services-console').append('<pre'+(error ? ' class="error"': '')+'>'+text+'</pre>');
+    // Always scroll to bottom of #services-console
+    $('#services-console').scrollTop($('#services-console')[0].scrollHeight);
+  }
 });
