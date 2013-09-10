@@ -25,6 +25,11 @@ exports.ajax = function (response, pathname) {
       service.service(response, pathArray[2], pathArray[3]);
       break;
 
+    case 'serviceList':
+      var service = require ('./service');
+      service.serviceList(response);
+      break;
+
     default:
       response.writeHead(501, {"Content-Type": "text/plain"});
       response.write('Not Implemented:'+pathArray[1]);
